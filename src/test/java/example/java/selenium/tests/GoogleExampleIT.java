@@ -75,7 +75,7 @@ public class GoogleExampleIT extends DriverBase {
         // Should see: "cheese! - Google Search"
         LOGGER.info("Page title is: " + driver.getTitle());
 
-        Assert.assertEquals(driver.getTitle(), "Milk - Tìm với Google");
+        Assert.assertEquals(driver.getTitle(), "Milk - Tìm trên Google");
         LOGGER.info(">============= END TEST");
     }
 
