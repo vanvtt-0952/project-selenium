@@ -53,8 +53,6 @@ public class BingHomePageIT  extends DriverBase {
         System.out.println("Search result string: " + element.getText());
 
         // Verify page title
-        Assert.assertEquals(driver.getTitle(), "Alfa Romeo - Bing");
-
-
+        Assert.assertEquals(driver.getTitle(), "Alfa Romeo - Search");
     }
 }

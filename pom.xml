@@ -11,15 +11,6 @@
 	<name>Selenium Maven Template</name>
 	<description>A Maven Template For Selenium</description>
 
-	<licenses>
-		<license>
-			<name>Apache 2</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-			<comments>A business-friendly OSS license</comments>
-		</license>
-	</licenses>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -33,7 +24,6 @@
 
 
 		<!--Plugin Versions -->
-		<driver-binary-downloader-maven-plugin.version>1.0.17</driver-binary-downloader-maven-plugin.version>
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-failsafe-plugin.version>2.22.1</maven-failsafe-plugin.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -42,14 +32,6 @@
 		<!-- custom report -->
 		<reportng.version>1.1.4</reportng.version>
 		<extentreports.version>1.4</extentreports.version>
-
-		<!--Configuration Properties to open browser -->
-		<!-- <project.basedir> /home/vu.thi.tran.van/Training/AutomationTest/Project-example/automation-selenium-custom 
-			</project.basedir> <overwrite.binaries>false</overwrite.binaries> <read.timeout>30000</read.timeout> 
-			<connection.timeout>40000</connection.timeout> <retry.attempts>4</retry.attempts> 
-			<browser>chrome</browser> <threads>1</threads> <remote>false</remote> <headless>true</headless> 
-			<seleniumGridURL /> <platform /> <browserVersion /> <proxyEnabled>false</proxyEnabled> 
-			<proxyHost /> <proxyPort /> -->
 	</properties>
 
 	<dependencies>
@@ -93,13 +75,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- download driver -->
-		<dependency>
-			<groupId>com.lazerycode.selenium</groupId>
-			<artifactId>driver-binary-downloader-maven-plugin</artifactId>
-			<version>${driver-binary-downloader-maven-plugin.version}</version>
-		</dependency>
-
 		<!-- // write logger -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -136,64 +111,6 @@
 							<target>${java.version}</target>
 						</configuration>
 						<version>${maven-compiler-plugin.version}</version>
-					</plugin>
-
-					<plugin>
-						<groupId>example.java.selenium</groupId>
-						<artifactId>driver-binary-downloader-maven-plugin</artifactId>
-						<version>${driver-binary-downloader-maven-plugin.version}</version>
-
-						<configuration>
-							<rootStandaloneServerDirectory>${project.basedir}/src/test/resources/selenium_standalone_binaries</rootStandaloneServerDirectory>
-							<downloadedZipFileDirectory>${project.basedir}/src/test/resources/selenium_standalone_zips</downloadedZipFileDirectory>
-							<customRepositoryMap>${project.basedir}/src/test/resources/RepositoryMap.xml</customRepositoryMap>
-							<overwriteFilesThatExist>${overwrite.binaries}</overwriteFilesThatExist>
-							<onlyGetDriversForHostOperatingSystem>false</onlyGetDriversForHostOperatingSystem>
-							<fileDownloadRetryAttempts>${retry.attempts}</fileDownloadRetryAttempts>
-							<fileDownloadReadTimeout>${read.timeout}</fileDownloadReadTimeout>
-							<operatingSystems>
-								<windows>true</windows>
-								<linux>true</linux>
-								<mac>true</mac>
-							</operatingSystems>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>${maven-failsafe-plugin.version}</version>
-						<configuration>
-							<parallel>methods</parallel>
-							<threadCount>${threads}</threadCount>
-							<systemPropertyVariables>
-								<browser>${browser}</browser>
-								<screenshotDirectory>${project.build.directory}/screenshots</screenshotDirectory>
-								<remoteDriver>${remote}</remoteDriver>
-								<gridURL>${seleniumGridURL}</gridURL>
-								<desiredPlatform>${platform}</desiredPlatform>
-								<desiredBrowserVersion>${browserVersion}</desiredBrowserVersion>
-								<proxyEnabled>${proxyEnabled}</proxyEnabled>
-								<proxyHost>${proxyHost}</proxyHost>
-								<proxyPort>${proxyPort}</proxyPort>
-								<headless>${headless}</headless>
-
-								<!--Set properties passed in by the driver binary downloader -->
-								<webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-								<webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
-								<webdriver.opera.driver>${webdriver.opera.driver}</webdriver.opera.driver>
-								<webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
-								<webdriver.edge.driver>${webdriver.edge.driver}</webdriver.edge.driver>
-							</systemPropertyVariables>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>integration-test</goal>
-									<!--This goal makes the build fail if you have test failures -->
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>

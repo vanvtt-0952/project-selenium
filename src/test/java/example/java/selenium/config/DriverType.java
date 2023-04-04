@@ -16,14 +16,18 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Properties;
 
 public enum DriverType implements DriverSetup {
 
 	FIREFOX {
 		public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-			System.setProperty("webdriver.gecko.driver",
-					"./src/test/resources/selenium_standalone_binaries/linux/marionette/64bit/geckodriver");
+			System.setProperty("webdriver.gecko.driver", getDriverProperties().getProperty("webdriver.gecko.driver"));
 			FirefoxOptions options = new FirefoxOptions();
 			options.merge(capabilities);
 			options.setHeadless(HEADLESS);
@@ -32,8 +36,7 @@ public enum DriverType implements DriverSetup {
 	},
 	CHROME {
 		public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-			System.setProperty("webdriver.chrome.driver",
-					"./src/test/resources/selenium_standalone_binaries/linux/googlechrome/64bit/chromedriver");
+			System.setProperty("webdriver.chrome.driver", getDriverProperties().getProperty("webdriver.chrome.drive"));
 			HashMap<String, Object> chromePreferences = new HashMap<>();
 			chromePreferences.put("profile.password_manager_enabled", false);
 
@@ -77,22 +80,38 @@ public enum DriverType implements DriverSetup {
 
 			return new SafariDriver(options);
 		}
-	},
-	OPERA {
-		public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-			System.setProperty("webdriver.opera.driver",
-					"**/src/test/resources/selenium_standalone_binaries/linux/operachromium/64bit/operadriver");
-			OperaOptions options = new OperaOptions();
-			options.merge(capabilities);
-
-			return new OperaDriver(options);
-		}
-	};
+	};// ,
+//	OPERA {
+//		public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
+//			System.setProperty("webdriver.opera.driver",
+//					"**/src/test/resources/selenium_standalone_binaries/linux/operachromium/64bit/operadriver");
+//			OperaOptions options = new OperaOptions();
+//			options.merge(capabilities);
+//
+//			return new OperaDriver(options);
+//		}
+//	};
 
 	public final static boolean HEADLESS = Boolean.getBoolean("headless");
 
 	@Override
 	public String toString() {
 		return super.toString().toLowerCase();
+	}
+
+	private static Properties getDriverProperties() {
+		Properties prop = new Properties();
+		InputStream input = null;
+		try {
+			input = new FileInputStream("elements/driver.properties");
+			prop.load(input);
+			input.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return prop;
 	}
 }
